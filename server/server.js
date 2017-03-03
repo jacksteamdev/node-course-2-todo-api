@@ -35,7 +35,6 @@ app.get('/todos/:id', (req, res) => {
   let id = req.params.id
 
   if (!ObjectID.isValid(id)) {
-    console.log('Id is not valid, send 404')
     return res.status(404).send()
   }
 
@@ -45,7 +44,6 @@ app.get('/todos/:id', (req, res) => {
     }
     res.send({todo})
   }).catch((err) => {
-    console.log('Promise.catch error', err)
     res.status(400).send()
   })
 })
