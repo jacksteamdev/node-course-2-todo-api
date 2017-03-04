@@ -26,26 +26,47 @@ app.post('/todos', (req, res) => {
 app.get('/todos', (req, res) => {
   Todo.find().then((todos) => {
     res.send({todos})
-  }, (e) => {
-    res.status(400).send(e)
+  }, (err) => {
+    res.status(400).send(err)
   })
 })
 
-// CHALLENGE: GET /todos/:id
 app.get('/todos/:id', (req, res) => {
   let id = req.params.id
 
   if (!ObjectID.isValid(id)) {
-    return res.status(404).send()
+    return res.sendStatus(400)
   }
 
   Todo.findById(id).then((todo) => {
     if (!todo) {
-      return res.status(404).send()
+      return res.sendStatus(404)
     }
     res.send({todo})
   }).catch((err) => {
-    res.status(400).send()
+    res.status(400).send(err)
+  })
+})
+
+app.delete('/todos/:id', (req, res) => {
+  // get id
+  let id = req.params.id
+
+  // validate id -> not valid? return 404
+  if (!ObjectID.isValid(id)) {
+    return res.status(400).send('Invalid ObjectID')
+  }
+
+  // remove todo by id
+  Todo.findByIdAndRemove(id).then((todo) => {
+    // success -> if no doc, 404 || send doc back with 200
+    if (!todo) {
+      return res.sendStatus(404)
+    }
+    res.send({todo})
+  }).catch((err) => {
+    // error -> 400 with empty body
+    res.status(400).send(err)
   })
 })
 
