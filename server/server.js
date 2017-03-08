@@ -14,6 +14,7 @@ const port = process.env.PORT || 3000
 
 app.use(bodyParser.json())
 
+// CREATE new todo
 app.post('/todos', (req, res) => {
   let todo = new Todo({
     text: req.body.text
@@ -26,6 +27,7 @@ app.post('/todos', (req, res) => {
   })
 })
 
+// GET all todos
 app.get('/todos', (req, res) => {
   Todo.find().then((todos) => {
     res.send({todos})
@@ -34,6 +36,7 @@ app.get('/todos', (req, res) => {
   })
 })
 
+// READ todo by id
 app.get('/todos/:id', (req, res) => {
   let id = req.params.id
 
@@ -51,6 +54,7 @@ app.get('/todos/:id', (req, res) => {
   })
 })
 
+// DELETE todo by id
 app.delete('/todos/:id', (req, res) => {
   // get id
   let id = req.params.id
@@ -73,6 +77,7 @@ app.delete('/todos/:id', (req, res) => {
   })
 })
 
+// UPDATE todo by id
 app.patch('/todos/:id', (req, res) => {
   let id = req.params.id
   let body = _.pick(req.body, ['text', 'completed'])
