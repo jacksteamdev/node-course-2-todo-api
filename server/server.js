@@ -27,7 +27,7 @@ app.post('/todos', (req, res) => {
   })
 })
 
-// GET all todos
+// READ all todos
 app.get('/todos', (req, res) => {
   Todo.find().then((todos) => {
     res.send({todos})
@@ -99,6 +99,18 @@ app.patch('/todos/:id', (req, res) => {
     }
 
     res.send({todo})
+  }).catch((err) => {
+    res.status(400).send(err)
+  })
+})
+
+// CREATE new user
+app.post('/users', (req, res) => {
+  let body = _.pick(req.body, ['email', 'password'])
+  let user = new User(body)
+
+  user.save().then((doc) => {
+    res.send(doc)
   }).catch((err) => {
     res.status(400).send(err)
   })
