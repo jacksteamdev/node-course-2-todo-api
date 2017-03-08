@@ -144,7 +144,7 @@ describe('PATCH /todos:id', (done) => {
   it('should update the todo', (done) => {
     let hexId = todos[0]._id.toHexString()
     let body = {
-      text: 'Update from supertest',
+      text: 'Update from supertest 1',
       completed: true
     }
     request(app)
@@ -163,7 +163,7 @@ describe('PATCH /todos:id', (done) => {
   it('should clear completedAt when todo is not completed', (done) => {
     let hexId = todos[1]._id.toHexString()
     let body = {
-      text: 'Update from supertest',
+      text: 'Update from supertest 2',
       completed: false
     }
     request(app)
@@ -173,7 +173,7 @@ describe('PATCH /todos:id', (done) => {
       .expect(res => {
         expect(res.body.todo.text).toBe(body.text)
         expect(res.body.todo.completed).toBe(false)
-        expect(res.body.todo.completedAt).toBe(null)
+        expect(res.body.todo.completedAt).toNotExist()
         done()
       })
       .catch((err) => done(err))
