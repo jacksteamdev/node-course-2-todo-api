@@ -226,7 +226,7 @@ describe('POST /users', () => {
       .send({email, password})
       .expect(400)
       .end(done)
-    })
+  })
 
   it('should not create a user if email in use', (done) => {
     request(app)
